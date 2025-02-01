@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Set your Gemini API key
+GEMINI_API_KEY=$GEMINI_API_KEY
+
+# Check if a prompt is provided
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <prompt>"
+  exit 1
+fi
+
+# Get the prompt from the command line arguments
+prompt="$*"
+
+# Construct the JSON payload
+payload=$(jq -n \
+          --arg text "$prompt" \
+          '{contents: [{parts: [{text: $text}]}]}')
+
+# Send the request to the Gemini API
+response=$(curl -s \
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d "$payload" \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=$GEMINI_API_KEY")
+
+# Extract the generated content using jq
+generated_text=$(echo "$response" | jq -r '.contents.parts.text')
+
+# Print the generated text
+echo "$generated_text"
