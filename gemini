@@ -24,8 +24,9 @@ response=$(curl -s \
             -d "$payload" \
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=$GEMINI_API_KEY")
 
-# Extract the generated content using jq
-generated_text=$(echo "$response" | jq -r '.contents.parts.text')
+# Extract the generated content using jq (Corrected)
+gemini_response=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
 
 # Print the generated text
-echo "$generated_text"
+echo "Gemini Response: $gemini_response"
+ 
