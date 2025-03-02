@@ -1,0 +1,29 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run shfmt
+      run: |
+        sudo apt-get install -y shfmt
+        shfmt -w -i 4 -ci gemini
+
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: '.'
+
+    - name: Run Bashate
+      run: |
+        pip install bashate
+        bashate .
