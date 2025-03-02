@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Set your Gemini API key
-GEMINI_API_KEY=$GEMINI_API_KEY
-
 # Check if a prompt is provided
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <prompt>"
