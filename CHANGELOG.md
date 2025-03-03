@@ -17,3 +17,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for the `gemini-1.5-pro` model.
 - Installation instructions and usage examples in the README.
 - MIT License added.
+- Linting workflow using ShellCheck, Bashate, and shfmt.

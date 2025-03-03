@@ -47,6 +47,21 @@ gemini "what is the capital of France?"
 gemini "write a short story about a cat"
 ```
 
+## Development Dependencies
+
+This project uses the following linters for code quality:
+
+* ShellCheck
+* Bashate
+* shfmt
+
+You can install them using:
+
+```bash
+brew install shellcheck shfmt
+pip install bashate
+```
+
 ## License
 
 This tool is released under the MIT License.
