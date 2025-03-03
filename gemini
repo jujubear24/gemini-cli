@@ -25,4 +25,5 @@ response=$(curl -s \
 gemini_response=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
 
 # Print the generated text
-echo "Gemini Response: $gemini_response"
+# echo -e "\e[31mGemini Response:\e[0m $gemini_response"
+echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) $gemini_response"
