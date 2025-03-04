@@ -2,12 +2,26 @@
 
 # Check if a prompt is provided
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <prompt>"
+    echo "Usage: $0 <prompt> [--language <language>]"
 	exit 1
 fi
 
-# Get the prompt from the command line arguments
-prompt="$*"
+# Set default language to auto-detect
+language=""
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -l | --language)
+      language="-l $2"  # Use -l option if language is specified
+      shift 2
+      ;;
+    *)
+      prompt="$*"
+      break
+      ;;
+  esac
+done
 
 # Construct the JSON payload
 payload=$(jq -n \
@@ -24,11 +38,8 @@ response=$(curl -s \
 # Extract the generated content using jq and pipe to glow
 rendered_markdown=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text' | glow)
 
-# # Preprocess the code blocks with sed to add language identifiers (example with Python)
-# processed_markdown=$(echo "$rendered_markdown" | sed 's/```/```python/g')
-
 # Apply syntax highlighting with pygmentize
-generated_text=$(echo "$rendered_markdown" | pygmentize -f terminal256)
+generated_text=$(echo "$rendered_markdown" | pygmentize -f terminal256 $language)
 
 # Print the generated text
 echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) $generated_text"
