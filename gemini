@@ -33,13 +33,13 @@ response=$(curl -s \
 	-H "Content-Type: application/json" \
 	-X POST \
 	-d "$payload" \
-	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY")
+	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="$GEMINI_API_KEY"")
 
 # Extract the generated content using jq and pipe to glow
 rendered_markdown=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text' | glow)
 
 # Apply syntax highlighting with pygmentize
-generated_text=$(echo "$rendered_markdown" | pygmentize -f terminal256 $language)
+generated_text=$(echo "$rendered_markdown" | pygmentize -f terminal256 "$language")
 
 # Print the generated text
-echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) $generated_text"
+echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) "$generated_text""
