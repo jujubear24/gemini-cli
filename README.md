@@ -10,7 +10,10 @@ This is the initial release of the Gemini CLI tool. It provides a basic command-
 **Features:**
 
 * Send prompts to the Gemini API and display the generated text.
-* Supports the `gemini-1.5-flash` or  `gemini-1.5-pro` model.
+* Supports the `gemini-2.0-flash` model.
+* **Renders Markdown in the responses.**
+* **Highlights code blocks with syntax highlighting.**
+
 
 ## Installation
 
@@ -45,6 +48,12 @@ export GEMINI_API_KEY="YOUR_API_KEY"
 ```bash
 gemini "what is the capital of France?"
 gemini "write a short story about a cat"
+```
+
+5. To specify the language for syntax highlighting, use the `-l` or `--language` option:
+
+```bash
+gemini "Write a Python function..." -l python
 ```
 
 ## Development Dependencies
