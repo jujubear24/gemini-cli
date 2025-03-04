@@ -21,8 +21,14 @@ response=$(curl -s \
 	-d "$payload" \
 	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY")
 
-# Extract the generated content using jq (Corrected)
-gemini_response=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
+# Extract the generated content using jq and pipe to glow
+rendered_markdown=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text' | glow)
+
+# # Preprocess the code blocks with sed to add language identifiers (example with Python)
+# processed_markdown=$(echo "$rendered_markdown" | sed 's/```/```python/g')
+
+# Apply syntax highlighting with pygmentize
+generated_text=$(echo "$rendered_markdown" | pygmentize -f terminal256)
 
 # Print the generated text
-echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) $gemini_response"
+echo -e "$(tput bold)$(tput setaf 1)Gemini Response:$(tput sgr0) $generated_text"
